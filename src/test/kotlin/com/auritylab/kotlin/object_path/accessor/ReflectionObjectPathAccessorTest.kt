@@ -1,8 +1,6 @@
 package com.auritylab.kotlin.object_path.accessor
 
-import com.auritylab.kotlin.object_path.path.IndexPathPart
 import com.auritylab.kotlin.object_path.path.PathParser
-import com.auritylab.kotlin.object_path.path.PropertyPathPart
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.specs.StringSpec
@@ -12,7 +10,7 @@ internal class ReflectionObjectPathAccessorTest : StringSpec({
         val part = PathParser().parsePath("b").parts.first()
 
         val rootWalker = ReflectionObjectPathAccessor(null, null,
-                Container("1a", Container("2a", "2b", "3c"), "2c"))
+                Container("1a", Container("2a", "2b", "3c"), "2c"), null)
 
         val accessedProperty = rootWalker.access(part)
 
@@ -25,7 +23,7 @@ internal class ReflectionObjectPathAccessorTest : StringSpec({
     "Should access index correctly" {
         val part = PathParser().parsePath("2").parts.first()
 
-        val rootWalker = ReflectionObjectPathAccessor(null, null, listOf("a", "b", "c"))
+        val rootWalker = ReflectionObjectPathAccessor(null, null, listOf("a", "b", "c"), null)
 
         val accessedProperty = rootWalker.access(part)
 

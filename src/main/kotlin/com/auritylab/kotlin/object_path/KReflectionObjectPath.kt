@@ -7,4 +7,4 @@ import com.auritylab.kotlin.object_path.walk.ObjectPathWalkerImpl
 object KReflectionObjectPath : AbstractKObjectPath<Any>(
         ObjectPathWalkerImpl(),
         PathParser(),
-        { ReflectionObjectPathAccessor(null, null, it) })
+        { ReflectionObjectPathAccessor(null, null, it, null) })
