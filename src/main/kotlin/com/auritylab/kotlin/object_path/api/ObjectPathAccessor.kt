@@ -19,6 +19,10 @@ interface ObjectPathAccessor {
      * The value which is currently represented by this [ObjectPathAccessor].
      */
     val value: Any?
+    /**
+     * The part with which this accessor was created.
+     */
+    val pathPart: PathPart?
 
     /**
      * Will access the property or index (defined in the given [part]) on the current [value].
@@ -34,5 +38,5 @@ interface ObjectPathAccessor {
     /**
      * Will set the current value.
      */
-    fun set (value: Any?): Any?
+    fun set(value: Any?): Any?
 }
