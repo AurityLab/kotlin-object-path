@@ -27,6 +27,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.10.1")
 }
 
 tasks.withType<Test> {

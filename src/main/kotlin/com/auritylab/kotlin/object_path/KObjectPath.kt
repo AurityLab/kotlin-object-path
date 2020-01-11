@@ -1,12 +1,55 @@
 package com.auritylab.kotlin.object_path
 
-interface KObjectPath<T : Any> {
-    fun get(input: T, path: String, default: Any? = null): Any?
-    fun get(input: T, vararg path: String, default: Any? = null): Any?
+import com.auritylab.kotlin.object_path.accessor.DefaultObjectPathAccessor
+import com.auritylab.kotlin.object_path.part.IndexPathPart
+import com.auritylab.kotlin.object_path.part.PathPart
+import com.auritylab.kotlin.object_path.part.PropertyPathPart
 
-    fun set(input: T, path: String, value: Any?): Any?
-    fun set(input: T, vararg path: String, value: Any?): Any?
+/**
+ * Represents the main class for "kotlin-object-path".
+ * You can pass any given object to the constructor.
+ * The object will then be used to accessed by a path.
+ */
+class KObjectPath(private val input: Any, private val accessorFactory: ((input: Any) -> KObjectPathAccessor)? = null) {
+    fun path(path: String): KObjectPathOperations {
+        val split = path.split(".")
 
-    fun has(input: T, path: String): Boolean
-    fun has(input: T, vararg path: String): Boolean
+        return KObjectPathOperations(walkPath(parse(split)))
+    }
+
+    fun path(vararg path: String): KObjectPathOperations {
+        return KObjectPathOperations(walkPath(parse(path.toList())))
+    }
+
+    /**
+     * Will take the given [input] and parses each element to an [PathPart].
+     * An element either represents a [IndexPathPart] or a [PropertyPathPart].
+     */
+    private fun parse(input: Iterable<String>): List<PathPart> {
+        return input.mapIndexed { index, part ->
+            // Try to parse an int from the element
+            val parsedInt = part.toIntOrNull()
+
+            if (parsedInt != null) {
+                // Is index part.
+                IndexPathPart(parsedInt, part, index)
+            } else {
+                // Is property part.
+                PropertyPathPart(part, part, index)
+            }
+        }
+    }
+
+    /**
+     * Will walk the given path [parts] on the current [input].
+     */
+    private fun walkPath(parts: List<PathPart>): KObjectPathAccessor {
+        return parts.fold(getInitialObjectAccessor(), KObjectPathAccessor::access)
+    }
+
+    /**
+     * Will create the initial [KObjectPathAccessor] with the current [input].
+     */
+    private fun getInitialObjectAccessor(): KObjectPathAccessor =
+            DefaultObjectPathAccessor(null, null, input, null)
 }

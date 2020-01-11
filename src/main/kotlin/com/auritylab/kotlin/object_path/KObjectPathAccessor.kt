@@ -1,22 +1,22 @@
-package com.auritylab.kotlin.object_path.api
+package com.auritylab.kotlin.object_path
 
 import com.auritylab.kotlin.object_path.exception.ObjectPathAccessorException
-import com.auritylab.kotlin.object_path.path.PathPart
+import com.auritylab.kotlin.object_path.part.PathPart
 
 /**
  * Describes the accessor for a given object.
  */
-interface ObjectPathAccessor {
+interface KObjectPathAccessor {
     /**
-     * The root [ObjectPathAccessor], which is handles path part zero.
+     * The root [KObjectPathAccessor], which is handles path part zero.
      */
-    val root: ObjectPathAccessor
+    val root: KObjectPathAccessor
     /**
-     * The parent [ObjectPathAccessor] of this [ObjectPathAccessor].
+     * The parent [KObjectPathAccessor] of this [KObjectPathAccessor].
      */
-    val parent: ObjectPathAccessor?
+    val parent: KObjectPathAccessor?
     /**
-     * The value which is currently represented by this [ObjectPathAccessor].
+     * The value which is currently represented by this [KObjectPathAccessor].
      */
     val value: Any?
     /**
@@ -26,17 +26,17 @@ interface ObjectPathAccessor {
 
     /**
      * Will access the property or index (defined in the given [part]) on the current [value].
-     * The result will be wrapped in another [ObjectPathAccessor].
+     * The result will be wrapped in another [KObjectPathAccessor].
      * If the [value] is null this will throw an exception, because it can not access anything.
      * If the [value] does not contain the expected property or is no list it will throw an exception.
      *
      * @throws ObjectPathAccessorException If [value] is null or the [value] does not contain the expected property
      * or is not iterable.
      */
-    fun access(part: PathPart): ObjectPathAccessor
+    fun access(part: PathPart): KObjectPathAccessor
 
     /**
      * Will set the current value.
      */
-    fun set(value: Any?): Any?
+    fun set(value: Any?)
 }
