@@ -11,12 +11,20 @@ import com.auritylab.kotlin.object_path.part.PropertyPathPart
  * The object will then be used to accessed by a path.
  */
 class KObjectPath(private val input: Any, private val accessorFactory: ((input: Any) -> KObjectPathAccessor)? = null) {
+    /**
+     * Will parse the given [path] and return a [KObjectPathOperations] instance, which can be used to access the path.
+     * Example [path]: "a.b.c"
+     */
     fun path(path: String): KObjectPathOperations {
         val split = path.split(".")
 
         return KObjectPathOperations(walkPath(parse(split)))
     }
 
+    /**
+     * Will parse the given [path] and return a [KObjectPathOperations] instance, which can be used to access the path.
+     * Example [path]: "a", "b", "c"
+     */
     fun path(vararg path: String): KObjectPathOperations {
         return KObjectPathOperations(walkPath(parse(path.toList())))
     }
